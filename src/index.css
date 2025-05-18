@@ -1,0 +1,4 @@
+@import "tailwindcss";
+.print-area * {
+  color: black !important; /* Override problematic color */
+}

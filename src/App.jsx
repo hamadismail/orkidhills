@@ -1,0 +1,139 @@
+import React, { useRef, useState } from "react";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import Template from "./Template";
+
+function App() {
+  const [formData, setFormData] = useState({
+    reservationNo: "",
+    roomNo: "",
+    nationality: "",
+    guestNo: "",
+    contact: "",
+    arrivalDate: "",
+    passPort: "",
+    departureDate: "",
+    totalPrice: "",
+    paymentStatus: "",
+  });
+
+  const receiptRef = useRef();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const generatePDF = () => {
+    const input = receiptRef.current;
+    html2canvas(input, {
+      scale: 2, // Higher DPI
+      useCORS: true, // If your template contains images (like logo)
+    }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/png");
+
+      const pdf = new jsPDF("p", "mm", "a4");
+      const imgProps = pdf.getImageProperties(imgData);
+
+      const pdfWidth = 210;
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("booking-receipt.pdf");
+    });
+  };
+
+  return (
+    <div className="min-w-[800px]">
+      <div className="w-11/12 mx-auto">
+        {/* info */}
+        <h2 className="text-center mt-12 text-4xl md:text-6xl bg-gray-100 p-4 text-purple-900 font-semibold">
+          Orkids <span>Hills</span>
+        </h2>
+        <p className="text-center mt-2 bg-purple-900 text-white py-1">
+          Book Reservation Now
+        </p>
+
+        {/* form */}
+        <form className="flex flex-col items-center gap-2 mt-8">
+          <input
+            className="px-2 py-1 bg-gray-200 rounded text-center"
+            name="reservationNo"
+            onChange={handleChange}
+            placeholder="Reservation No"
+          />
+          <input
+            className="px-2 py-1 bg-gray-200 rounded text-center"
+            name="roomNo"
+            onChange={handleChange}
+            placeholder="Room No"
+          />
+          <input
+            className="px-2 py-1 bg-gray-200 rounded text-center"
+            name="nationality"
+            onChange={handleChange}
+            placeholder="Nationality"
+          />
+          <input
+            className="px-2 py-1 bg-gray-200 rounded text-center"
+            name="guestNo"
+            onChange={handleChange}
+            placeholder="No. of Guests"
+          />
+          <input
+            className="px-2 py-1 bg-gray-200 rounded text-center"
+            name="contact"
+            onChange={handleChange}
+            placeholder="Contact"
+          />
+          <input
+            className="px-2 py-1 bg-gray-200 rounded text-center"
+            name="arrivalDate"
+            onChange={handleChange}
+            placeholder="Date of Arrival"
+          />
+          <input
+            className="px-2 py-1 bg-gray-200 rounded text-center"
+            name="departureDate"
+            onChange={handleChange}
+            placeholder="Date of Departure"
+          />
+          <input
+            className="px-2 py-1 bg-gray-200 rounded text-center"
+            name="totalPrice"
+            onChange={handleChange}
+            placeholder="Total Price"
+          />
+          <input
+            className="px-2 py-1 bg-gray-200 rounded text-center"
+            name="paymentStatus"
+            onChange={handleChange}
+            placeholder="Payment Status"
+          />
+          <button
+            className="px-2 py-1 bg-purple-900 text-white cursor-pointer rounded text-center mt-2"
+            type="button"
+            onClick={generatePDF}
+          >
+            Generate Receipt
+          </button>
+        </form>
+      </div>
+      {/* template */}
+      <div
+        ref={receiptRef}
+        style={{
+          width: "794px", // A4 width in pixels @ 96dpi
+          minHeight: "1123px", // A4 height in pixels @ 96dpi
+          transform: "scale(1)",
+          transformOrigin: "top left",
+          overflow: "hidden",
+          margin: "auto",
+        }}
+      >
+        <Template formData={formData} />
+      </div>
+    </div>
+  );
+}
+
+export default App;
