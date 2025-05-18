@@ -25,19 +25,20 @@ function App() {
 
   const generatePDF = () => {
     const input = receiptRef.current;
-    html2canvas(input, {
-      scale: 2, // Higher DPI
-      useCORS: true, // If your template contains images (like logo)
-    }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
 
+    html2canvas(input, {
+      scale: 2, // 2 is a good balance for quality vs size
+      useCORS: true,
+      allowTaint: false,
+      logging: false,
+    }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/jpeg", 0.75); // JPEG reduces size significantly
       const pdf = new jsPDF("p", "mm", "a4");
-      const imgProps = pdf.getImageProperties(imgData);
 
       const pdfWidth = 210;
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
-      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
       pdf.save("booking-receipt.pdf");
     });
   };
