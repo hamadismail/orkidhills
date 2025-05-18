@@ -17,9 +17,25 @@ const Template = () => {
     contact,
     arrivalDate,
     departureDate,
-    totalPrice,
+    passPort,
+    roomDetails,
+    bookingFees,
+    sst,
+    tax,
+    discount,
+    guests,
+    policy,
+    priceword,
     paymentStatus,
-  } = formData;
+  } = formData || {};
+
+  const ConvertedBookingFees = bookingFees && parseFloat(bookingFees);
+  const Convertedsst = sst && parseFloat(sst);
+  const ConvertedTax = tax && parseFloat(tax);
+  const ConvertedDiscount = discount && parseFloat(discount);
+
+  const totalFees =
+    ConvertedBookingFees + Convertedsst + ConvertedTax - ConvertedDiscount;
 
   const generatePDF = () => {
     const input = receiptRef.current;
@@ -62,7 +78,7 @@ const Template = () => {
             <span>Reservation No. : {reservationNo}</span>
             <span>Nationality : {nationality}</span>
             <span>Contact : {contact}</span>
-            <span>IC / Passport :</span>
+            <span>IC / Passport : {passPort}</span>
           </div>
           <div className="flex flex-col">
             <span>Room No. : {roomNo}</span>
@@ -87,28 +103,38 @@ const Template = () => {
               <div className="w-1/3 py-1 px-2">Amount</div>
             </div>
             <div className="flex text-sm">
-              <div className="w-1/3 p-1 border-r border-black min-h-[80px]"></div>
+              <div className="w-1/3 p-1 border-r border-black min-h-[80px]">
+                {guests}
+              </div>
               <div className="w-1/3 p-1 border-r border-black leading-tight">
-                <div></div>
+                <div>{roomDetails}</div>
                 <div>SST (8%)</div>
                 <div>TOURISM TAX (4X10)</div>
                 <div>FnF Discount</div>
               </div>
-              <div className="w-1/3 p-1"></div>
+              <div className="w-1/3 p-1">
+                <div>RM {bookingFees}</div>
+                <div>RM {sst}</div>
+                <div>RM {tax}</div>
+                <div>RM {discount}</div>
+              </div>
             </div>
           </div>
-          <p className="ml-auto mr-8 w-fit font-semibold flex gap-4">
-            Total Price: <span>RM {totalPrice}</span>
-          </p>
         </div>
         {/* Price & Notes Section */}
         <div className="border my-2 text-sm p-3">
-          <div className="font-semibold">Total Price :</div>
+          <div className="flex items-center justify-around font-semibold">
+            <div></div>
+            <p className="">Total Price:</p>
+            <span>RM {totalFees}</span>
+          </div>
           <div className="mt-1">
             (Including GST + Tourism Tax + Service Charge)
           </div>
-          <div className="mt-1 font-semibold">Pricing Policy :</div>
-          <div className="mt-1 font-semibold">Net Price In Words :</div>
+          <div className="mt-1 font-semibold">Pricing Policy : {policy}</div>
+          <div className="mt-1 font-semibold">
+            Net Price In Words : {priceword}
+          </div>
           <div className="mt-1 font-semibold">
             Only. Payment Status : {paymentStatus}
           </div>
@@ -135,6 +161,7 @@ const Template = () => {
           </p>
         </div>
       </div>
+
       <div className="flex justify-center mt-4 mb-8">
         <button
           onClick={generatePDF}

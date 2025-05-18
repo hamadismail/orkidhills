@@ -11,7 +11,14 @@ const Provider = ({ children }) => {
     arrivalDate: "",
     passPort: "",
     departureDate: "",
-    totalPrice: "",
+    roomDetails: "",
+    bookingFees: "",
+    sst: "",
+    tax: "",
+    discount: "",
+    guests: "",
+    policy: "",
+    priceword: "",
     paymentStatus: "",
   });
   const userData = {
