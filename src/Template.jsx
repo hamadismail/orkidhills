@@ -44,7 +44,7 @@ const Template = () => {
   };
 
   return (
-    <div className="min-w-4xl mx-auto mt-12">
+    <div className="w-4xl mx-auto mt-12">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="px-12 pt-12" ref={receiptRef}>
         {" "}
