@@ -124,7 +124,14 @@ function App() {
         </form>
       </div>
       {/* template */}
-      <div className="w-4xl mx-auto" ref={receiptRef}>
+      <div
+        className="w-4xl mx-auto"
+        ref={receiptRef}
+        style={{
+          position: "absolute",
+          top: "-10000px",
+        }}
+      >
         <Template formData={formData} />
       </div>
     </div>
