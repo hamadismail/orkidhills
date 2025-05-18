@@ -127,13 +127,15 @@ function App() {
       <div
         ref={receiptRef}
         style={{
-          position: "absolute",
-          top: "-9999px",
-          left: "-9999px",
-          width: "250mm", // Ensures correct A4 scaling
-          padding: "20px",
-          background: "white", // Important for visibility
+          position: "fixed", // More reliable than "absolute" on mobile
+          top: "-10000px",
+          left: "0",
+          width: "794px", // A4 width in pixels at 96 DPI
+          height: "1123px", // A4 height in pixels at 96 DPI
+          backgroundColor: "#fff",
           zIndex: -1,
+          overflow: "hidden", // Prevents scrollbar issues
+          transform: "scale(1)", // Prevent zoom bug on mobile
         }}
       >
         <Template formData={formData} />
