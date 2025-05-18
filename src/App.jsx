@@ -130,12 +130,10 @@ function App() {
           position: "absolute",
           top: "-9999px",
           left: "-9999px",
-          width: "794px", // A4 width in pixels @ 96dpi
-          minHeight: "1123px", // A4 height in pixels @ 96dpi
-          transform: "scale(1)",
-          transformOrigin: "top left",
-          overflow: "hidden",
-          margin: "auto",
+          width: "250mm", // Ensures correct A4 scaling
+          padding: "20px",
+          background: "white", // Important for visibility
+          zIndex: -1,
         }}
       >
         <Template formData={formData} />
