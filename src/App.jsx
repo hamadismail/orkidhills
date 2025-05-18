@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Template from "./Template";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   const [formData, setFormData] = useState({
@@ -40,12 +41,15 @@ function App() {
 
       pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
       pdf.save("booking-receipt.pdf");
+
+      toast.success("Download Completed");
     });
   };
 
   return (
-    <div className="min-w-[800px]">
-      <div className="w-11/12 mx-auto">
+    <div>
+      <Toaster position="top-center" reverseOrder={false} />
+      <div className="w-11/12 mx-auto mb-12">
         {/* info */}
         <h2 className="text-center mt-12 text-4xl md:text-6xl bg-gray-100 p-4 text-purple-900 font-semibold">
           Orkids <span>Hills</span>
@@ -123,6 +127,9 @@ function App() {
       <div
         ref={receiptRef}
         style={{
+          position: "absolute",
+          top: "-9999px",
+          left: "-9999px",
           width: "794px", // A4 width in pixels @ 96dpi
           minHeight: "1123px", // A4 height in pixels @ 96dpi
           transform: "scale(1)",
