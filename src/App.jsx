@@ -1,54 +1,21 @@
-import React, { useRef, useState } from "react";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
-import Template from "./Template";
+import React, { use, useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router";
+import { Context } from "./providers/Context";
 
 function App() {
-  const [formData, setFormData] = useState({
-    reservationNo: "",
-    roomNo: "",
-    nationality: "",
-    guestNo: "",
-    contact: "",
-    arrivalDate: "",
-    passPort: "",
-    departureDate: "",
-    totalPrice: "",
-    paymentStatus: "",
-  });
+  const navigate = useNavigate();
+  const { formData, setFormData } = use(Context);
 
   const receiptRef = useRef();
 
   const handleChange = (e) => {
+    e.preventDefault();
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const generatePDF = () => {
-    const input = receiptRef.current;
-
-    html2canvas(input, {
-      scale: 2, // 2 is a good balance for quality vs size
-      useCORS: true,
-      allowTaint: false,
-      logging: false,
-    }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/jpeg", 0.75); // JPEG reduces size significantly
-      const pdf = new jsPDF("p", "mm", "a4");
-
-      const pdfWidth = 210;
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-      pdf.addImage(imgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
-      pdf.save("booking-receipt.pdf");
-
-      toast.success("Download Completed");
-    });
   };
 
   return (
     <div>
-      <Toaster position="top-center" reverseOrder={false} />
       <div className="w-11/12 mx-auto mb-12">
         {/* info */}
         <h2 className="text-center mt-12 text-4xl md:text-6xl bg-gray-100 p-4 text-purple-900 font-semibold">
@@ -117,22 +84,11 @@ function App() {
           <button
             className="px-2 py-1 bg-purple-900 text-white cursor-pointer rounded text-center mt-2"
             type="button"
-            onClick={generatePDF}
+            onClick={() => navigate("/template")}
           >
             Generate Receipt
           </button>
         </form>
-      </div>
-      {/* template */}
-      <div
-        className="w-4xl mx-auto"
-        ref={receiptRef}
-        style={{
-          position: "absolute",
-          top: "-10000px",
-        }}
-      >
-        <Template formData={formData} />
       </div>
     </div>
   );
