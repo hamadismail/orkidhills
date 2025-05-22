@@ -73,13 +73,14 @@ const Template = () => {
           </p>
         </div>
         {/* Header Info */}
-        <div className="text flex gap-56 my-8">
+        <div className="text flex justify-center gap-16 my-8">
           <div className="flex flex-col">
             <span>Reservation No. : {reservationNo}</span>
             <span>Nationality : {nationality}</span>
             <span>Contact : {contact}</span>
-            <span>IC / Passport : {passPort}</span>
+            <span>IC / Passport : {passPort} </span>
           </div>
+
           <div className="flex flex-col">
             <span>Room No. : {roomNo}</span>
             <span>No. Of Guest : {guestNo}</span>
@@ -123,8 +124,7 @@ const Template = () => {
         </div>
         {/* Price & Notes Section */}
         <div className="border my-2 text-sm p-3">
-          <div className="flex items-center justify-around font-semibold">
-            <div></div>
+          <div className="pl-64 gap-48 flex font-semibold">
             <p className="">Total Price:</p>
             <span>RM {totalFees}</span>
           </div>
@@ -136,7 +136,7 @@ const Template = () => {
             Net Price In Words : {priceword}
           </div>
           <div className="mt-1 font-semibold">
-            Only. Payment Status : {paymentStatus}
+            Payment Status : {paymentStatus}
           </div>
         </div>
         {/* Notice Section */}
