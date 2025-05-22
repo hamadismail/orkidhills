@@ -73,15 +73,15 @@ const Template = () => {
           </p>
         </div>
         {/* Header Info */}
-        <div className="text flex justify-center gap-16 my-8">
+        <div className="text grid grid-cols-2 gap-16 my-8">
           <div className="flex flex-col">
             <span>Reservation No. : {reservationNo}</span>
             <span>Nationality : {nationality}</span>
             <span>Contact : {contact}</span>
-            <span>IC / Passport : {passPort} </span>
+            <span>IC / Passport : {passPort}</span>
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col ml-8">
             <span>Room No. : {roomNo}</span>
             <span>No. Of Guest : {guestNo}</span>
             <span>Date of Arrival : {arrivalDate}</span>
@@ -104,13 +104,11 @@ const Template = () => {
               <div className="w-1/3 py-1 px-2">Amount</div>
             </div>
             <div className="flex text-sm">
-              <div className="w-1/3 p-1 border-r border-black min-h-[80px]">
-                {guests}
-              </div>
-              <div className="w-1/3 p-1 border-r border-black leading-tight">
+              <div className="w-1/3 border-r border-black">{guests}</div>
+              <div className="w-1/3 border-r border-black p-1">
                 <div>{roomDetails}</div>
                 <div>SST (8%)</div>
-                <div>TOURISM TAX (4X10)</div>
+                <div>TOURISM TAX</div>
                 <div>FnF Discount</div>
               </div>
               <div className="w-1/3 p-1">
